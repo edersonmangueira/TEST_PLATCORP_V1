@@ -2,28 +2,33 @@ package com.edersonmangueira.test_platcorp_v1.dominio;
 
 import java.io.Serializable;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class Cliente implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
+	@Id
+	private String id;
 	private String nome;
-	private Integer idade;
+	private String idade;
 	
 	public Cliente() {
 	}
 	
-	public Cliente(Integer id, String nome, Integer idade) {
+	public Cliente(String id, String nome, String idade) {
 		this.id = id;
 		this.nome = nome;
 		this.idade = idade;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -35,11 +40,11 @@ public class Cliente implements Serializable{
 		this.nome = nome;
 	}
 
-	public Integer getIdade() {
+	public String getIdade() {
 		return idade;
 	}
 
-	public void setIdade(Integer idade) {
+	public void setIdade(String idade) {
 		this.idade = idade;
 	}
 
