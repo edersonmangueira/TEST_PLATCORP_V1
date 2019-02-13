@@ -33,6 +33,11 @@ public class ClienteService {
 		return repo.insert(cliente);
 	}
 	
+	public void delete (String id) {
+		findById(id);
+		repo.deleteById(id);
+	}
+	
 	public Cliente fromDTO(ClienteDTO clienteDto) {
 		return new Cliente(clienteDto.getId(), clienteDto.getNome(), clienteDto.getIdade()); 
 	}
