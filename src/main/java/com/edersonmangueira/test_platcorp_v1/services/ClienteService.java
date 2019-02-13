@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edersonmangueira.test_platcorp_v1.dominio.Cliente;
+import com.edersonmangueira.test_platcorp_v1.dto.ClienteDTO;
 import com.edersonmangueira.test_platcorp_v1.repository.ClienteRepository;
 import com.edersonmangueira.test_platcorp_v1.services.exception.ObjectNotFoundException;
 
@@ -26,6 +27,14 @@ public class ClienteService {
 		Optional<Cliente> cliente = repo.findById(id);
 		
 		return cliente.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado"));
+	}
+	
+	public Cliente insert(Cliente cliente) {
+		return repo.insert(cliente);
+	}
+	
+	public Cliente fromDTO(ClienteDTO clienteDto) {
+		return new Cliente(clienteDto.getId(), clienteDto.getNome(), clienteDto.getIdade()); 
 	}
 
 }
