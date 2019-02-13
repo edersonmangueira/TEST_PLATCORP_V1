@@ -55,4 +55,14 @@ public class ClienteResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build(); 
 	}
+	
+	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
+	public ResponseEntity<Void> update(@PathVariable String id, @RequestBody ClienteDTO clienteDto){
+		
+		Cliente cliente = service.fromDTO(clienteDto);
+		cliente.setId(id);
+		cliente = service.update(cliente);
+		
+		return ResponseEntity.noContent().build(); 
+	}
 }

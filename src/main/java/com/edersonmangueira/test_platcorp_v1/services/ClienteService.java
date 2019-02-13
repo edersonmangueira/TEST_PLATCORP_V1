@@ -38,6 +38,11 @@ public class ClienteService {
 		repo.deleteById(id);
 	}
 	
+	public Cliente update(Cliente cliente) {
+		findById(cliente.getId());
+		return repo.save(cliente);
+	}
+	
 	public Cliente fromDTO(ClienteDTO clienteDto) {
 		return new Cliente(clienteDto.getId(), clienteDto.getNome(), clienteDto.getIdade()); 
 	}
