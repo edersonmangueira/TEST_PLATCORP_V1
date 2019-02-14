@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.edersonmangueira.test_platcorp_v1.dominio.Cliente;
 import com.edersonmangueira.test_platcorp_v1.dto.ClienteDTO;
@@ -19,6 +20,9 @@ public class ClienteService {
 	@Autowired 
 	private ClienteRepository repo;
 	
+	@Autowired
+	private LocalizacaoGeograficaRecuperaIpService loca;
+	
 	public List<Cliente> findAll(){
 		return repo.findAll();
 	}
@@ -30,6 +34,13 @@ public class ClienteService {
 	}
 	
 	public Cliente insert(Cliente cliente) {
+		try {
+			String ip = loca.recuperaIp();
+			loca.LocalizacaoGeografica(ip);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return repo.insert(cliente);
 	}
 	
