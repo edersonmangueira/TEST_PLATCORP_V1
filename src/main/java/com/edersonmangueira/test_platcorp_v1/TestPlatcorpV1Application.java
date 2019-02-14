@@ -9,6 +9,5 @@ public class TestPlatcorpV1Application {
 	public static void main(String[] args) {
 		SpringApplication.run(TestPlatcorpV1Application.class, args);
 	}
-
 }
 

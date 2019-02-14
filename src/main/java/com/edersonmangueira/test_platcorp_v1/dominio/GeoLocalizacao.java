@@ -2,9 +2,6 @@ package com.edersonmangueira.test_platcorp_v1.dominio;
 
 import java.io.Serializable;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document
 public class GeoLocalizacao implements Serializable {
 
 	private static final long serialVersionUID = 1L;

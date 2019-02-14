@@ -6,11 +6,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.json.JSONObject;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.edersonmangueira.test_platcorp_v1.dominio.GeoLocalizacao;
+import com.edersonmangueira.test_platcorp_v1.dominio.PegaIP;
 
 @Service
 public class LocalizacaoGeograficaRecuperaIpService {
@@ -19,86 +19,60 @@ public class LocalizacaoGeograficaRecuperaIpService {
 
 		String url = "https://ipvigilante.com/" + ip;
 
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-
-		con.setRequestMethod("GET");
-
-		int responseCode = con.getResponseCode();
-
-		System.out.println("\nSending 'GET' request to URL : " + url);
-		System.out.println("Response Code : " + responseCode);
-
-		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
-		// print in String
-		System.out.println(response.toString());
-
-		// Read JSON response and print
-
-		JSONObject myResponse = new JSONObject(response.toString());
-		System.out.println("result after Reading JSON Response");
-		System.out.println("status- " + myResponse.getString("status"));
-		System.out.println("data- " + myResponse.get("data"));
-
 		RestTemplate restTemplate = new RestTemplate();
-		
+
 		GeoLocalizacao geoLocalizacao = restTemplate.getForObject(url, GeoLocalizacao.class);
-		
+
 		System.out.println("------------------------------------------");
 		System.out.println(geoLocalizacao);
-		/*
-		 * JSONObject dataJson = (JSONObject) myResponse.get("data");
-		 */
 
-		/*
-		 * System.out.println("ipv4- " + myResponse.getString("ipv4"));
-		 * System.out.println("continent_name " +
-		 * myResponse.getString("continent_name")); System.out.println("country_name- "
-		 * + myResponse.getString("country_name"));
-		 * System.out.println("subdivision_1_name- " +
-		 * myResponse.getString("subdivision_1_name"));
-		 */
-
+		recuperaWoeid(geoLocalizacao.getData().getLatitude(), geoLocalizacao.getData().getLongitude());
 	}
 
 	public String recuperaIp() throws Exception {
 
 		String url = "http://httpbin.org/ip";
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		
+		RestTemplate restTemplate = new RestTemplate();
 
-		// optional default is GET
-		con.setRequestMethod("GET");
+		PegaIP pegaIP = restTemplate.getForObject(url, PegaIP.class);
 
-		int responseCode = con.getResponseCode();
+		return pegaIP.getOrigin();
+	}
 
-		System.out.println("\nSending 'GET' request to URL : " + url);
-		System.out.println("Response Code : " + responseCode);
+	public void recuperaWoeid(String latitude, String longitude) throws Exception {
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
+		String url = "https://www.metaweather.com/api/location/search/?lattlong=" + latitude + "," + longitude;
 
-		// print in String
-		System.out.println(response.toString());
+		
+		  URL obj = new URL(url); HttpURLConnection con = (HttpURLConnection)
+		  obj.openConnection();
+		  
+		  int responseCode = con.getResponseCode();
+		  
+		  System.out.println("\nSending 'GET' request to URL : " + url);
+		  System.out.println("Response Code : " + responseCode);
+		  
+		  BufferedReader in = new BufferedReader(new
+		  InputStreamReader(con.getInputStream())); String inputLine; StringBuffer
+		  response = new StringBuffer(); while ((inputLine = in.readLine()) != null) {
+		  response.append(inputLine); } in.close();
+		  
+		  JSONObject myResponse = new JSONObject(response);
+		 
 
-		JSONObject myResponse = new JSONObject(response.toString());
+		/*
+		 * String ip = (String) myResponse.getString("origin");
+		 * 
+		 * return (String) myResponse.getString("origin");
+		 */
 
-		String ip = (String) myResponse.getString("origin");
-
-		System.out.println("IP :" + ip);
-
-		return (String) myResponse.getString("origin");
-
+		/*
+		 * RestTemplate restTemplate = new RestTemplate();
+		 * 
+		 * RecuperaWoeid woeid = restTemplate.getForObject(url, RecuperaWoeid.class);
+		 * 
+		 * System.out.println(woeid);
+		 */
 	}
 }

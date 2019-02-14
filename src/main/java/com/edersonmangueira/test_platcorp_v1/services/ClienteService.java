@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.edersonmangueira.test_platcorp_v1.dominio.Cliente;
 import com.edersonmangueira.test_platcorp_v1.dto.ClienteDTO;
