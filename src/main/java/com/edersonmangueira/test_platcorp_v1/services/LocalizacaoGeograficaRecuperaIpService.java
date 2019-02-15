@@ -23,12 +23,6 @@ public class LocalizacaoGeograficaRecuperaIpService {
 		RestTemplate restTemplate = new RestTemplate();
 
 		GeoLocalizacao geoLocalizacao = restTemplate.getForObject(url, GeoLocalizacao.class);
-
-		System.out.println("------------------------------------------");
-		System.out.println(geoLocalizacao);
-
-		Integer woeid = recuperaWoeid(geoLocalizacao);
-		recuperaTemperatura(woeid);
 		
 		return geoLocalizacao;
 	}
@@ -40,9 +34,6 @@ public class LocalizacaoGeograficaRecuperaIpService {
 		RestTemplate restTemplate = new RestTemplate();
 
 		IP pegaIP = restTemplate.getForObject(url, IP.class);
-
-		System.out.println("------------------------------------------");
-		System.out.println(pegaIP);
 
 		return pegaIP.getOrigin();
 	}
@@ -57,10 +48,6 @@ public class LocalizacaoGeograficaRecuperaIpService {
 		Woeid[] forNow = restTemplate.getForObject(url, Woeid[].class);
 
 		List<Woeid> woeids = Arrays.asList(forNow);
-
-		System.out.println("------------------------------------------");
-
-		System.out.println(woeids);
 
 		for (Woeid recuperaWoeid : woeids) {
 			if (recuperaWoeid.getTitle().equals(geoLocalizacao.getData().getCity_name())) {
@@ -87,14 +74,8 @@ public class LocalizacaoGeograficaRecuperaIpService {
 		Temperatura[] forNow = restTemplate.getForObject(url, Temperatura[].class);
 
 		List<Temperatura> temperaturas = Arrays.asList(forNow);
-
-		System.out.println("------------------------------------------");
-
-		System.out.println(temperaturas);
 		
 		return temperaturas;
 
 	}
-	
-	
 }

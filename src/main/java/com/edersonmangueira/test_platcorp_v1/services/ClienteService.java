@@ -51,13 +51,19 @@ public class ClienteService {
 			Integer woeid = loca.recuperaWoeid(geoLocalizacao);
 			List<Temperatura> temperaturas = loca.recuperaTemperatura(woeid);
 			
+			Double tempMinima = null;
+			Double tempMaxima = null;
+			
 			for (Temperatura temperatura : temperaturas) {
 				
 				if(temperatura.getApplicable_date().equals(formatarDate.format(data))) {
-					ClienteTemperatura clienteTemperatura = new ClienteTemperatura(temperatura.getMin_temp(), temperatura.getMax_temp(),cliente);
-					repoTemperatura.insert(clienteTemperatura);
+					tempMinima = temperatura.getMin_temp();
+					tempMaxima = temperatura.getMax_temp();
 				}
 			}
+			
+			ClienteTemperatura clienteTemperatura = new ClienteTemperatura(tempMinima, tempMaxima,cliente);
+			repoTemperatura.insert(clienteTemperatura);
 
 		} catch (Exception e) {
 			e.printStackTrace();
