@@ -1,6 +1,6 @@
 package com.edersonmangueira.test_platcorp_v1.dominio;
 
-public class RecuperaWoeid {
+public class Woeid {
 	
 	private Integer distance;
 	private String title;
@@ -8,10 +8,10 @@ public class RecuperaWoeid {
 	private Integer woeid;
 	private String latt_long;
 	
-	public RecuperaWoeid() {
+	public Woeid() {
 	}
 
-	public RecuperaWoeid(Integer distance, String title, String location_type, Integer woeid, String latt_long) {
+	public Woeid(Integer distance, String title, String location_type, Integer woeid, String latt_long) {
 		this.distance = distance;
 		this.title = title;
 		this.location_type = location_type;

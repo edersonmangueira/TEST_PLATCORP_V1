@@ -1,13 +1,13 @@
 package com.edersonmangueira.test_platcorp_v1.dominio;
 
-public class PegaIP {
+public class IP {
 	
 	private String origin;
 	
-	public PegaIP() {
+	public IP() {
 	}
 
-	public PegaIP(String origin) {
+	public IP(String origin) {
 		this.origin = origin;
 	}
 
