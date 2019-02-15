@@ -1,16 +1,15 @@
 package com.edersonmangueira.test_platcorp_v1.services;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.edersonmangueira.test_platcorp_v1.dominio.GeoLocalizacao;
 import com.edersonmangueira.test_platcorp_v1.dominio.PegaIP;
+import com.edersonmangueira.test_platcorp_v1.dominio.RecuperaWoeid;
+import com.edersonmangueira.test_platcorp_v1.dominio.RecuperaWoeidList;
 
 @Service
 public class LocalizacaoGeograficaRecuperaIpService {
@@ -32,10 +31,13 @@ public class LocalizacaoGeograficaRecuperaIpService {
 	public String recuperaIp() throws Exception {
 
 		String url = "http://httpbin.org/ip";
-		
+
 		RestTemplate restTemplate = new RestTemplate();
 
 		PegaIP pegaIP = restTemplate.getForObject(url, PegaIP.class);
+
+		System.out.println("------------------------------------------");
+		System.out.println(pegaIP);
 
 		return pegaIP.getOrigin();
 	}
@@ -44,35 +46,15 @@ public class LocalizacaoGeograficaRecuperaIpService {
 
 		String url = "https://www.metaweather.com/api/location/search/?lattlong=" + latitude + "," + longitude;
 
+		RestTemplate restTemplate = new RestTemplate();
+
+		RecuperaWoeid[] forNow = restTemplate.getForObject(url, RecuperaWoeid[].class);
+
+		List<RecuperaWoeid> woeids = Arrays.asList(forNow);
 		
-		  URL obj = new URL(url); HttpURLConnection con = (HttpURLConnection)
-		  obj.openConnection();
-		  
-		  int responseCode = con.getResponseCode();
-		  
-		  System.out.println("\nSending 'GET' request to URL : " + url);
-		  System.out.println("Response Code : " + responseCode);
-		  
-		  BufferedReader in = new BufferedReader(new
-		  InputStreamReader(con.getInputStream())); String inputLine; StringBuffer
-		  response = new StringBuffer(); while ((inputLine = in.readLine()) != null) {
-		  response.append(inputLine); } in.close();
-		  
-		  JSONObject myResponse = new JSONObject(response);
-		 
+		System.out.println("------------------------------------------");
 
-		/*
-		 * String ip = (String) myResponse.getString("origin");
-		 * 
-		 * return (String) myResponse.getString("origin");
-		 */
+		System.out.println(woeids);
 
-		/*
-		 * RestTemplate restTemplate = new RestTemplate();
-		 * 
-		 * RecuperaWoeid woeid = restTemplate.getForObject(url, RecuperaWoeid.class);
-		 * 
-		 * System.out.println(woeid);
-		 */
 	}
 }
