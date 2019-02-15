@@ -1,5 +1,7 @@
 package com.edersonmangueira.test_platcorp_v1.services;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,8 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.edersonmangueira.test_platcorp_v1.dominio.Cliente;
+import com.edersonmangueira.test_platcorp_v1.dominio.ClienteTemperatura;
+import com.edersonmangueira.test_platcorp_v1.dominio.GeoLocalizacao;
+import com.edersonmangueira.test_platcorp_v1.dominio.Temperatura;
 import com.edersonmangueira.test_platcorp_v1.dto.ClienteDTO;
 import com.edersonmangueira.test_platcorp_v1.repository.ClienteRepository;
+import com.edersonmangueira.test_platcorp_v1.repository.ClienteTemperaturaRepository;
 import com.edersonmangueira.test_platcorp_v1.services.exception.ObjectNotFoundException;
 
 
@@ -19,8 +25,14 @@ public class ClienteService {
 	@Autowired 
 	private ClienteRepository repo;
 	
+	@Autowired 
+	private ClienteTemperaturaRepository repoTemperatura;
+	
 	@Autowired
 	private LocalizacaoGeograficaRecuperaIpService loca;
+	
+	Date data = new Date(System.currentTimeMillis());
+	SimpleDateFormat formatarDate = new SimpleDateFormat("yyyy-MM-dd");
 	
 	public List<Cliente> findAll(){
 		return repo.findAll();
@@ -35,7 +47,17 @@ public class ClienteService {
 	public Cliente insert(Cliente cliente) {
 		try {
 			String ip = loca.recuperaIp();
-			loca.LocalizacaoGeografica(ip);
+			GeoLocalizacao geoLocalizacao = loca.LocalizacaoGeografica(ip);
+			Integer woeid = loca.recuperaWoeid(geoLocalizacao);
+			List<Temperatura> temperaturas = loca.recuperaTemperatura(woeid);
+			
+			for (Temperatura temperatura : temperaturas) {
+				
+				if(temperatura.getApplicable_date().equals(formatarDate.format(data))) {
+					ClienteTemperatura clienteTemperatura = new ClienteTemperatura(temperatura.getMin_temp(), temperatura.getMax_temp(),cliente);
+					repoTemperatura.insert(clienteTemperatura);
+				}
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

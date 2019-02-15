@@ -1,7 +1,5 @@
 package com.edersonmangueira.test_platcorp_v1.dominio;
 
-import java.util.Date;
-
 public class Temperatura {
 	
 	private String id; 
@@ -9,7 +7,7 @@ public class Temperatura {
 	private String weather_state_abbr;
 	private String wind_direction_compass;
 	private String created;
-	private Date applicable_date;
+	private String applicable_date;
 	private Double min_temp; 
 	private Double max_temp;
 	private Double the_temp;
@@ -24,7 +22,7 @@ public class Temperatura {
 	}
 
 	public Temperatura(String id, String weather_state_name, String weather_state_abbr, String wind_direction_compass,
-			String created, Date applicable_date, Double min_temp, Double max_temp, Double the_temp, Double wind_speed,
+			String created, String applicable_date, Double min_temp, Double max_temp, Double the_temp, Double wind_speed,
 			Double wind_direction, Double air_pressure, Integer humidity, Double visibility, Integer predictability) {
 		this.id = id;
 		this.weather_state_name = weather_state_name;
@@ -83,11 +81,11 @@ public class Temperatura {
 		this.created = created;
 	}
 
-	public Date getApplicable_date() {
+	public String getApplicable_date() {
 		return applicable_date;
 	}
 
-	public void setApplicable_date(Date applicable_date) {
+	public void setApplicable_date(String applicable_date) {
 		this.applicable_date = applicable_date;
 	}
 
